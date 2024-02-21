@@ -15,7 +15,7 @@
                 <input type="date" class="form-control" id="date_filter" name="date_filter">
             </div>
             <div class="form-group">
-                <label for="time_filter">Filter by Time:</label>
+                <label for="time_filter">Filter by Time (HH:MM):</label>
                 <input type="time" class="form-control" id="time_filter" name="time_filter">
             </div>
             <button type="submit" class="btn btn-primary">Filter</button>
@@ -24,18 +24,20 @@
             <thead>
                 <tr>
                     <th>Date Time</th>
-                    <th>Hour</th>
-                    <th>Minute</th>
-                    <th>Value</th>
+                    <!-- <th>Hour</th>
+                    <th>Minute</th> -->
+                    <th>Value (Each Minute)</th>
+                    <th>Value (Hourly)</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in data %}
                 <tr>
                     <td>{{ row.datetime }}</td>
-                    <td>{{ row.hour }}</td>
-                    <td>{{ row.minute }}</td>
+                    <!-- <td>{{ row.hour }}</td>
+                    <td>{{ row.minute }}</td> -->
                     <td>{{ row.value }}</td>
+                    <td>{{ row.value_hourly if 'value_hourly' in row else '' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

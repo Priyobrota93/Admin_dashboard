@@ -43,6 +43,8 @@ def generate_data():
             'minute': now.strftime("%Y-%m-%d %H:%M"),
             'value': random.randint(0, 100)
         })
+        if i % 60 == 0:  # Store hourly data
+            data[-1]['value_hourly'] = random.randint(0, 100)
         now -= timedelta(seconds=60)
     return data
 
@@ -55,11 +57,12 @@ def dashboard():
 def filter_data():
     date_filter = request.form.get('date_filter')
     time_filter = request.form.get('time_filter')
-    # Perform filtering based on date and time
-    # Example: You can filter the data list based on the date_filter and time_filter
-    # filtered_data = ...
-    # return render_template('dashboard.html', data=filtered_data)
-    return 'Filtering not implemented yet'
+    data = generate_data()
+    if date_filter:
+        data = [item for item in data if item['datetime'].startswith(date_filter)]
+    if time_filter:
+        data = [item for item in data if item['datetime'].split()[1].startswith(time_filter)]
+    return render_template('admin/dashboard.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)
