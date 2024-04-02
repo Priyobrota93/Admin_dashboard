@@ -3,45 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel Dashboard</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+    
     <div class="container mt-5">
-        <h1 class="mb-4">Admin Panel Dashboard</h1>
-        <form action="/filter" method="post">
-            <div class="form-group">
-                <label for="date_filter">Filter by Date:</label>
-                <input type="date" class="form-control" id="date_filter" name="date_filter">
+        <h1 class="mb-4"><i class="fas fa-chart-line"></i> Admin Dashboard</h1>
+        <form action="/admin/dashboard" method="get" class="mb-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Name">Name:</label>
+                        <input type="text" id="name" name="Name" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" id="start_date" name="start_date" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" id="end_date" name="end_date" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="hidden" name="applyFilters" value="true">
+                    <button class="btn btn-primary " id="applyFiltersBtn">Apply Filters</button>
+                    <a href="/test/admin/dashboard" class="btn btn-secondary">Test Post</a>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="time_filter">Filter by Time (HH:MM):</label>
-                <input type="time" class="form-control" id="time_filter" name="time_filter">
-            </div>
-            <button type="submit" class="btn btn-primary">Filter</button>
         </form>
-        <table class="table mt-4">
-            <thead>
-                <tr>
-                    <th>Date Time</th>
-                    <!-- <th>Hour</th>
-                    <th>Minute</th> -->
-                    <th>Value (Each Minute)</th>
-                    <th>Value (Hourly)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in data %}
-                <tr>
-                    <td>{{ row.datetime }}</td>
-                    <!-- <td>{{ row.hour }}</td>
-                    <td>{{ row.minute }}</td> -->
-                    <td>{{ row.value }}</td>
-                    <td>{{ row.value_hourly if 'value_hourly' in row else '' }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="row">
+            {% if filters_applied %}
+                {% if data %}
+                    {% for item in data %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Machine ID: {{ item.machine_id }}</h5>
+                                </div>
+                                <div class="row">
+                                    <!-- Card 1 -->
+                                    <div class="col-sm-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-header bg-primary text-white">
+                                                Voltage
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="image">
+                                                    <img src="/assets/energy-consumption.jpg" alt="energy consumption" class="img-fluid">
+                                                </div>
+                                                <div class="data-container text-center">
+                                                    <p class="card-text text-center">{{ item.v }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card 2 -->
+                                    <div class="col-sm-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-header bg-secondary text-white">
+                                                Current
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="image">
+                                                    <img src="/assets/energy-consumption.jpg" alt="energy consumption" class="img-fluid">
+                                                </div>
+                                                <div class="data-container text-center">
+                                                    <p class="card-text text-center">{{ item.c }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Card 3 -->
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <div class="card-header bg-warning text-white">
+                                                Weight
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="image">
+                                                    <img src="/assets/energy-consumption.jpg" alt="energy consumption" class="img-fluid">
+                                                </div>
+                                                <div class="data-container text-center">
+                                                    <h3 class="m-0">6.9 <span class="text-secondary">Wh/5min</span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card 4 -->
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <div class="card-header bg-primary text-white">
+                                                Card-4
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="image">
+                                                    <img src="/assets/energy-consumption.jpg" alt="energy consumption" class="img-fluid">
+                                                </div>
+                                                <div class="data-container text-center">
+                                                    <h3 class="m-0">6.9 <span class="text-secondary">Wh/5min</span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card 5 -->
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <div class="card-header bg-secondary text-white">
+                                                Card-5
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="image">
+                                                    <img src="/assets/energy-consumption.jpg" alt="energy consumption" class="img-fluid">
+                                                </div>
+                                                <div class="data-container text-center">
+                                                    <h3 class="m-0">6.9 <span class="text-secondary">Wh/5min</span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-md-12">
+                        <p>No data available</p>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Machine ID</th>
+                                <th>Voltage</th>
+                                <th>Current</th>
+                                <th>PSP</th>
+                                <th>Transformer Temperature</th>
+                                <th>Ambient Temperature</th>
+                                <th>Oil Level</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in data %}
+                                <tr>
+                                    <td>{{ item.machine_id }}</td>
+                                    <td>{{ item.v }}</td>
+                                    <td>{{ item.c }}</td>
+                                    <td>{{ item.p }}</td>
+                                    <td>{{ item.tt }}</td>
+                                    <td>{{ item.at }}</td>
+                                    <td>{{ item.l }}</td>
+                                    <td>{{ item.name }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
     </div>
+
+    <!-- Bootstrap JS and jQuery -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
