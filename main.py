@@ -103,10 +103,10 @@ def admin_dashboard():
         # Fetch data from MySQL based on the provided filters
        
         if name:
-            sql = "SELECT machine_id, tr_v, tr_c, tr_p, tr_tt, tr_at, tr_l, Name, updated_at FROM mqtt_devices WHERE Name = %s"
+            sql = "SELECT machine_id, tr_v, tr_c, tr_p, tr_tt, tr_at, tr_l,  updated_at FROM mqtt_devices WHERE Name = %s"
             cursor.execute(sql, (name,))
         elif start_date and end_date:
-            sql = "SELECT machine_id, tr_v, tr_c, tr_p, tr_tt, tr_at, tr_l, Name, updated_at FROM mqtt_devices WHERE updated_at BETWEEN %s AND %s"
+            sql = "SELECT machine_id, tr_v, tr_c, tr_p, tr_tt, tr_at, tr_l,  updated_at FROM mqtt_devices WHERE updated_at BETWEEN %s AND %s"
             cursor.execute(sql, (start_date, end_date))
         else:
             # If no filters provided, fetch all data
@@ -167,16 +167,16 @@ def test_admin_dashboard():
 
         # Fetch data from MySQL based on the provided filters
         if name:
-            sql = "SELECT machine_id, test_v,  test_p,  name,  updated_at FROM mqtt_devices_two WHERE name = %s"
+            sql = "SELECT machine_id, test_v,  test_p, test_at,  updated_at FROM mqtt_devices_two WHERE name = %s"
             cursor.execute(sql, (name,))
             print("debug3")
         elif start_date and end_date:
-            sql = "SELECT machine_id, test_v,  test_p,  name,  updated_at FROM mqtt_devices_two WHERE updated_at BETWEEN %s AND %s"
+            sql = "SELECT machine_id, test_v,  test_p, test_at,  updated_at FROM mqtt_devices_two WHERE updated_at BETWEEN %s AND %s"
             cursor.execute(sql, (start_date, end_date))
             
         else:
             # If no filters provided, fetch all data
-            sql = "SELECT machine_id, test_v,  test_p,  name, updated_at FROM mqtt_devices_two"
+            sql = "SELECT machine_id, test_v,  test_p, test_at,  name, updated_at FROM mqtt_devices_two"
             cursor.execute(sql)
            
 
@@ -190,8 +190,8 @@ def test_admin_dashboard():
                 "machine_id": row[0],
                 "v": row[1],
                 "p": row[2],
-                # "at": row[4],
-                "name": row[3],
+                "at": row[3],
+                "name": row[4],
                 # "updated_at": row[4].isoformat()  # Convert datetime object to ISO format string
                 
             })

@@ -9,7 +9,7 @@ def add_column_to_table():
         cur = conn.cursor()
         
         # SQL statement to add a new column
-        cur.execute("ALTER TABLE mqtt_devices ADD COLUMN Name VARCHAR(255)")
+        cur.execute("ALTER TABLE mqtt_devices_two ADD COLUMN test_at Float")
         
         # Commit the changes to the database
         conn.commit()
