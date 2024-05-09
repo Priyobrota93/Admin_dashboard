@@ -31,6 +31,6 @@ def update_name_value(machine_id, new_name):
             conn.close()
 
 # Example usage: Update the Name for machine_id 1 to 'New Device Name'
-update_name_value("100","70.789")
-update_name_value("05","90.372")
+update_name_value("05","82.187")
+ 
 
